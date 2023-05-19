@@ -1,6 +1,6 @@
 'use client';
 
-import TextProcessor from '@/comnponents/TextProcessor';
+import TextProcessor from '@/components/TextProcessor';
 
 export default function Home() {
   return (

@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 100vh;
+}
+
+.textArea {
+  border: 1px solid black;
+  width: 20rem;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+}
