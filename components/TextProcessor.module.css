@@ -1,16 +1,54 @@
 .container {
-  display: flex;
-  align-items: center;
+  display: grid;
   justify-content: space-around;
+  grid-template-areas:
+    't t'
+    'b b';
   height: 100vh;
-}
-
-.textArea {
-  border: 1px solid black;
-  width: 20rem;
 }
 
 .inner {
   display: flex;
   flex-direction: column;
+  margin-top: 2rem;
+  align-items: center;
+  gap: 0;
+}
+
+.label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.textArea {
+  grid-area: t;
+  border: 2px solid black;
+  border-radius: 5px;
+  width: 20rem;
+  resize: none;
+}
+
+.btn {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  width: 8rem;
+  height: 3rem;
+  border: 2px solid black;
+  border-radius: 20px;
+}
+
+.btn:hover {
+  transition: all 0.2s;
+  background-color: black;
+  color: white;
+}
+
+.btnContainer {
+  grid-area: b;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  height: 0;
 }
