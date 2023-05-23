@@ -31,17 +31,17 @@ const TextProcessor = () => {
 
   useEffect(() => {
     async function getUsedChars() {
-      fetch('/api/getUsedChars')
-        .then((resp) => {
-          return resp.json();
-        })
-        .then((resp) => {
-          setUsedChars(resp.translated.character_count);
-        });
+      const chars = await fetch('/api/getUsedChars').then((resp) => {
+        return resp.json();
+      });
+
+      console.log(chars);
+
+      setUsedChars(chars.translated.character_count);
     }
 
     getUsedChars();
-  });
+  }, []);
 
   async function pasteHandler() {
     const text = await navigator.clipboard.readText();
