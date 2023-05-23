@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import classes from './TextProcessor.module.css';
 
 const testArr: string[] = [
@@ -29,9 +29,7 @@ async function getUsedChars() {
     return resp.json();
   });
 
-  console.log(chars);
-
-  return chars.translated.character_count;
+  return chars;
 }
 
 const TextProcessor = () => {
@@ -111,7 +109,7 @@ const TextProcessor = () => {
     const chars = await getUsedChars();
 
     setProcessedText(finishedText.join('\n'));
-    setUsedChars(chars);
+    setUsedChars(chars.translated.character_count);
   }
 
   function copyHandler(text: string) {
