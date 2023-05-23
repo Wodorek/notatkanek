@@ -31,6 +31,7 @@
 
 .btn {
   margin-top: 1rem;
+  margin-bottom: 1rem;
   font-size: 1.2rem;
   font-weight: bold;
   width: 8rem;
@@ -47,8 +48,8 @@
 
 .btnContainer {
   grid-area: b;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 0;
 }
