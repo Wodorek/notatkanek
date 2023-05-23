@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classes from './TextProcessor.module.css';
 
 const testArr: string[] = [
@@ -24,18 +24,24 @@ async function getTranslations(wordsString: string) {
   return translations;
 }
 
-async function getUsedChars() {
-  const chars = await fetch('/api/getUsedChars').then((resp) => {
-    return resp.json();
-  });
-
-  return chars;
-}
-
 const TextProcessor = () => {
   const [rawText, setRawText] = useState('');
   const [processedText, setProcessedText] = useState('');
   const [usedChars, setUsedChars] = useState(0);
+
+  useEffect(() => {
+    async function getUsedChars() {
+      const chars = await fetch('/api/getUsedChars')
+        .then((resp) => {
+          return resp.json();
+        })
+        .then((chars) => {
+          setUsedChars(chars.chars.character_count);
+        });
+    }
+
+    getUsedChars();
+  }, []);
 
   async function pasteHandler() {
     const text = await navigator.clipboard.readText();
@@ -106,10 +112,7 @@ const TextProcessor = () => {
       return line;
     });
 
-    const chars = await getUsedChars();
-
     setProcessedText(finishedText.join('\n'));
-    setUsedChars(chars.translated.character_count);
   }
 
   function copyHandler(text: string) {
@@ -154,7 +157,7 @@ const TextProcessor = () => {
         >
           Process
         </button>
-        <div>{usedChars || '???'} / 500,000</div>
+        <div>{usedChars} / 500,000</div>
       </div>
     </div>
   );
