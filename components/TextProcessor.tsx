@@ -21,6 +21,8 @@ const regex = new RegExp(/[a-z]+/i);
 async function getTranslations(wordsString: string) {
   const translations = await fetch(`/api/getTranslation/${wordsString}`);
 
+  console.log(translations);
+
   return translations;
 }
 
@@ -31,7 +33,7 @@ const TextProcessor = () => {
 
   useEffect(() => {
     async function getUsedChars() {
-      const chars = await fetch('/api/getUsedChars')
+      await fetch('/api/getUsedChars')
         .then((resp) => {
           return resp.json();
         })
@@ -57,8 +59,9 @@ const TextProcessor = () => {
       const hasWords = testArr.some((word) => line.includes(word));
       const isLetter = regex.test(line[0]);
 
-      return !hasWords && isLetter;
+      return !hasWords && isLetter && line.length > 0;
     });
+    console.log('complete', complete);
     return complete;
   }
 
@@ -71,16 +74,21 @@ const TextProcessor = () => {
       }
     }
 
+    console.log('idxs', idxs);
+
     return idxs;
   }
 
   function createTranslateParam(lines: string[], idxs: number[]) {
     let param = `${lines[idxs[0]]}`;
+    console.log('param', param);
 
     for (let i = 1; i < idxs.length; i++) {
       const newFragment = `&text=${lines[idxs[i]]}`;
       param = param + newFragment;
     }
+
+    param = param.replaceAll('/', ' ');
 
     return param;
   }
@@ -92,6 +100,9 @@ const TextProcessor = () => {
       usefulLines,
       missingTranslation
     );
+
+    console.log(missingTranslation);
+    console.log(usefulLines);
 
     const translationsData = await getTranslations(translationParam).then(
       (resp) => {
