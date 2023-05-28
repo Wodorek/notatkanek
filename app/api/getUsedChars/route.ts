@@ -6,6 +6,9 @@ export async function GET() {
     headers: {
       Authorization: `DeepL-Auth-Key ${process.env.DEEPL_AUTH!}`,
     },
+    next: {
+      revalidate: 1200,
+    },
   }).then((resp) => {
     return resp.json();
   });
