@@ -21,8 +21,6 @@ const regex = new RegExp(/[a-z]+/i);
 async function getTranslations(wordsString: string) {
   const translations = await fetch(`/api/getTranslation/${wordsString}`);
 
-  console.log(translations);
-
   return translations;
 }
 
@@ -61,7 +59,6 @@ const TextProcessor = () => {
 
       return !hasWords && isLetter && line.length > 0;
     });
-    console.log('complete', complete);
     return complete;
   }
 
@@ -74,14 +71,11 @@ const TextProcessor = () => {
       }
     }
 
-    console.log('idxs', idxs);
-
     return idxs;
   }
 
   function createTranslateParam(lines: string[], idxs: number[]) {
     let param = `${lines[idxs[0]]}`;
-    console.log('param', param);
 
     for (let i = 1; i < idxs.length; i++) {
       const newFragment = `&text=${lines[idxs[i]]}`;
@@ -100,9 +94,6 @@ const TextProcessor = () => {
       usefulLines,
       missingTranslation
     );
-
-    console.log(missingTranslation);
-    console.log(usefulLines);
 
     const translationsData = await getTranslations(translationParam).then(
       (resp) => {
