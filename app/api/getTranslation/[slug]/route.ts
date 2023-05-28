@@ -5,20 +5,19 @@ export async function GET(
   {
     params,
   }: {
-    params: { text: string };
+    params: { slug: string };
   }
 ) {
   const translated = await fetch(
-    `https://api-free.deepl.com/v2/translate?text=${params.text}&target_lang=PL`,
+    `https://api-free.deepl.com/v2/translate?text=${params.slug}&target_lang=PL`,
     {
-      method: 'GET',
+      method: 'POST',
       headers: {
         Authorization: `DeepL-Auth-Key ${process.env.DEEPL_AUTH!}`,
-        ContentType: 'application/x-www-form-urlencoded',
       },
     }
-  ).then((resp) => {
-    return resp.json();
+  ).then((res) => {
+    return res.json();
   });
 
   return NextResponse.json({ translated });
