@@ -50,7 +50,7 @@ const TextProcessor = () => {
 
   function removeUselessLines(text: string) {
     const lines = text.split('\n').map((line) => {
-      return line.replace('\r', '');
+      return line.replace('\r', '').replace(/\?/g, '');
     });
 
     const complete = lines.filter((line) => {
