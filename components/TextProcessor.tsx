@@ -101,6 +101,8 @@ const TextProcessor = () => {
       }
     );
 
+    console.log(translationsData);
+
     const translatedSentences = translationsData.translated.translations;
 
     //this is such a hack...
@@ -108,7 +110,11 @@ const TextProcessor = () => {
     const finishedText = usefulLines.map((line, idx) => {
       if (missingTranslation.includes(idx)) {
         currIdx++;
-        return `${line} - ${translatedSentences[currIdx].text}`;
+        return `${line}  ${
+          translatedSentences[currIdx].detected_source_language !== 'PL'
+            ? ` - ${translatedSentences[currIdx].text}`
+            : ''
+        }`;
       }
 
       return line;
