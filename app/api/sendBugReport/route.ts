@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   const data = await request.json();
 
   try {
-    transporter.sendMail({
+    await transporter.sendMail({
       from: 'Michalina <bugs@notatkanek.com>',
       to: process.env.BUG_MAIL,
       subject: 'New bug report',
