@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import classes from './TextProcessor.module.css';
+import { BsFillBugFill } from 'react-icons/bs';
 
 const testArr: string[] = [
   'Wiadomość usunięta',
@@ -127,10 +128,28 @@ const TextProcessor = () => {
     navigator.clipboard.writeText(text);
   }
 
+  async function bugReportHandler() {
+    const text = encodeURI(rawText);
+    console.log(encodeURI(text));
+    await fetch(`/api/sendBugReport`, {
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      }),
+
+      method: 'POST',
+      body: JSON.stringify(rawText),
+    });
+  }
+
   //TODO: take inner html into separate components
 
   return (
     <div className={classes.container}>
+      <div onClick={bugReportHandler} className={classes.bugBtn}>
+        <BsFillBugFill size={35} />
+      </div>
+
       <div className={classes.inner}>
         <label className={classes.label}>Raw text</label>
         <textarea
@@ -139,7 +158,7 @@ const TextProcessor = () => {
           value={rawText}
           onChange={(e) => setRawText(e.target.value)}
         />
-        <button className={classes.btn} onClick={() => pasteHandler()}>
+        <button className={classes.btn} onClick={pasteHandler}>
           Paste
         </button>
       </div>

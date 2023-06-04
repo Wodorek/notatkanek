@@ -7,6 +7,22 @@
   height: 100vh;
 }
 
+.bugBtn {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  cursor: pointer;
+  border: 2px solid black;
+  padding: 1rem;
+  border-radius: 20rem;
+}
+
+.bugBtn:hover {
+  transition: all 0.2s;
+  background-color: black;
+  color: white;
+}
+
 .inner {
   display: flex;
   flex-direction: column;
