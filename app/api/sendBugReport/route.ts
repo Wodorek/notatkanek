@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
-export async function POST(request: Request, { params }: any) {
-  console.log('hello');
-
+export async function POST(request: Request) {
   const transporter = nodemailer.createTransport({
     host: 'smtp-relay.sendinblue.com',
     port: 587,
@@ -15,8 +13,6 @@ export async function POST(request: Request, { params }: any) {
   });
 
   const data = await request.json();
-
-  console.log(data);
 
   transporter.sendMail({
     from: 'Michalina <bugs@notatkanek.com>',
