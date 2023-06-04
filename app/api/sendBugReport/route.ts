@@ -1,0 +1,29 @@
+import { NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
+
+export async function POST(request: Request, { params }: any) {
+  console.log('hello');
+
+  const transporter = nodemailer.createTransport({
+    host: 'smtp-relay.sendinblue.com',
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.SMTP_LOGIN,
+      pass: process.env.SMTP_PASSWORD,
+    },
+  });
+
+  const data = await request.json();
+
+  console.log(data);
+
+  transporter.sendMail({
+    from: 'Michalina <bugs@notatkanek.com>',
+    to: process.env.BUG_MAIL,
+    subject: 'New bug report',
+    text: data,
+  });
+
+  return NextResponse.json({ message: 'Bug report sent' });
+}
