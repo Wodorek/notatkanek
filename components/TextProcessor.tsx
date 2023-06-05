@@ -83,6 +83,7 @@ const TextProcessor = () => {
       param = param + newFragment;
     }
 
+    //replacements should be in one regex?
     param = param.replaceAll('/', ' ').replaceAll('\\', '');
 
     return param;
