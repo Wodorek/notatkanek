@@ -1,21 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import classes from './TextProcessor.module.css';
-
-const testArr: string[] = [
-  'Wiadomość usunięta',
-  'Bukaj',
-  'Michalina',
-  '\n',
-  'udostępnianie',
-  'Wysłano',
-  'Kamera',
-  'Mikrofon',
-  'Pokaż',
-  'Nagraj',
-  'Czat',
-  'Ludzie',
-  'Wyjdź',
-];
+import config from '../config/config';
 const regex = new RegExp(/[a-z]+/i);
 
 async function getTranslations(wordsString: string) {
@@ -54,7 +39,7 @@ const TextProcessor = () => {
     });
 
     const complete = lines.filter((line) => {
-      const hasWords = testArr.some((word) => line.includes(word));
+      const hasWords = config.exclusions.some((word) => line.includes(word));
       const isLetter = regex.test(line[0]);
 
       return !hasWords && isLetter && line.length > 0;
