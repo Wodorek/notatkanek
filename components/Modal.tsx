@@ -19,7 +19,13 @@ const Modal: React.FC<IProps> = (props) => {
       </div>
       <div className={classes.settingsCard}>
         {settingKeys.map((setting) => {
-          return <SettingField name={setting} key={setting} />;
+          return (
+            <SettingField
+              name={setting}
+              key={setting}
+              val={props.settings[setting]}
+            />
+          );
         })}
       </div>
     </div>

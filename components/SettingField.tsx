@@ -3,6 +3,7 @@ import classes from './SettingField.module.css';
 
 interface IProps {
   name: string;
+  val: string;
 }
 
 const SettingField: React.FC<IProps> = (props) => {
