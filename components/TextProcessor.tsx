@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import classes from './TextProcessor.module.css';
-import { BsFillBugFill } from 'react-icons/bs';
+import { BsFillBugFill, BsFillGearFill } from 'react-icons/bs';
+import Modal from './Modal';
+import defaultSettings from '../app/settings.json';
 
 const testArr: string[] = [
   'Wiadomość usunięta',
@@ -29,6 +31,8 @@ const TextProcessor = () => {
   const [rawText, setRawText] = useState('');
   const [processedText, setProcessedText] = useState('');
   const [usedChars, setUsedChars] = useState(0);
+  const [settings, setSettings] = useState<{ [key: string]: any }>({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     async function getUsedChars() {
@@ -41,7 +45,15 @@ const TextProcessor = () => {
         });
     }
 
-    getUsedChars();
+    const localSettings = localStorage.getItem('settings');
+
+    if (!localSettings) {
+      setSettings(defaultSettings);
+    } else {
+      setSettings(JSON.parse(localSettings));
+    }
+
+    // getUsedChars();
   }, []);
 
   async function pasteHandler() {
@@ -55,7 +67,7 @@ const TextProcessor = () => {
     });
 
     const complete = lines.filter((line) => {
-      const hasWords = testArr.some((word) => line.includes(word));
+      const hasWords = [...testArr].some((word) => line.includes(word));
       const isLetter = regex.test(line[0]);
 
       return !hasWords && isLetter && line.length > 0;
@@ -143,51 +155,79 @@ const TextProcessor = () => {
     });
   }
 
+  function openSettingsHandler() {
+    setIsModalOpen(true);
+  }
+
+  function updateSettings(setting: keyof typeof settings, value: any) {
+    const newSettings = { ...settings };
+
+    newSettings[setting] = value;
+
+    setSettings(newSettings);
+  }
+
   //TODO: take inner html into separate components
 
   return (
-    <div className={classes.container}>
-      <div onClick={bugReportHandler} className={classes.bugBtn}>
-        <BsFillBugFill size={35} />
-      </div>
+    <>
+      {isModalOpen && (
+        <Modal
+          closeModal={() => setIsModalOpen(false)}
+          updateSettings={(setting: string, value: any) =>
+            updateSettings(setting, value)
+          }
+          settings={settings}
+        />
+      )}
+      <div className={classes.container}>
+        <div className={classes.settingsBtns}>
+          <div onClick={bugReportHandler} className={classes.bugBtn}>
+            <BsFillBugFill size={35} />
+          </div>
+          <div onClick={openSettingsHandler} className={classes.bugBtn}>
+            <BsFillGearFill size={35} />
+          </div>
+        </div>
 
-      <div className={classes.inner}>
-        <label className={classes.label}>Raw text</label>
-        <textarea
-          rows={20}
-          className={classes.textArea}
-          value={rawText}
-          onChange={(e) => setRawText(e.target.value)}
-        />
-        <button className={classes.btn} onClick={pasteHandler}>
-          Paste
-        </button>
+        <div className={classes.inner}>
+          <label className={classes.label}>Raw text</label>
+          <textarea
+            rows={20}
+            className={classes.textArea}
+            value={rawText}
+            onChange={(e) => setRawText(e.target.value)}
+          />
+          <button className={classes.btn} onClick={pasteHandler}>
+            Paste
+          </button>
+        </div>
+        <div className={classes.inner}>
+          <label className={classes.label}>Cleaned Up</label>
+          <textarea
+            rows={20}
+            className={classes.textArea}
+            value={processedText}
+            onChange={(e) => setProcessedText(e.target.value)}
+          />
+          <button
+            className={classes.btn}
+            onClick={() => copyHandler(processedText)}
+          >
+            Copy
+          </button>
+        </div>
+        <div className={classes.btnContainer}>
+          <button
+            className={classes.btn}
+            onClick={() => textProcessingHandler(rawText)}
+          >
+            Process
+          </button>
+          <div>{usedChars} / 500,000</div>
+        </div>
       </div>
-      <div className={classes.inner}>
-        <label className={classes.label}>Cleaned Up</label>
-        <textarea
-          rows={20}
-          className={classes.textArea}
-          value={processedText}
-          onChange={(e) => setProcessedText(e.target.value)}
-        />
-        <button
-          className={classes.btn}
-          onClick={() => copyHandler(processedText)}
-        >
-          Copy
-        </button>
-      </div>
-      <div className={classes.btnContainer}>
-        <button
-          className={classes.btn}
-          onClick={() => textProcessingHandler(rawText)}
-        >
-          Process
-        </button>
-        <div>{usedChars} / 500,000</div>
-      </div>
-    </div>
+    </>
   );
 };
 

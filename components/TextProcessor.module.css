@@ -7,10 +7,16 @@
   height: 100vh;
 }
 
-.bugBtn {
+.settingsBtns {
   position: absolute;
   top: 2rem;
   right: 2rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.bugBtn {
   cursor: pointer;
   border: 2px solid black;
   padding: 1rem;
