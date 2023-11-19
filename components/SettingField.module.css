@@ -1,7 +1,16 @@
+.settingField {
+  display: flex;
+  align-items: flex-end;
+  width: inherit;
+}
+
 .label {
   text-transform: capitalize;
+  margin-right: 1rem;
+  font-size: 1.1rem;
 }
 
 .textField {
   border-bottom: 1px solid black;
+  width: 100%;
 }

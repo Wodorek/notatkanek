@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classes from './SettingField.module.css';
 
 interface IProps {
@@ -7,12 +7,16 @@ interface IProps {
 }
 
 const SettingField: React.FC<IProps> = (props) => {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(props.val);
+
+  useEffect(() => {
+    setInputValue(props.val);
+  }, [props.val]);
 
   return (
     <div className={classes.settingField}>
       <label htmlFor="settingName" className={classes.label}>
-        {props.name}
+        {props.name}:
       </label>
       <input
         className={classes.textField}

@@ -53,7 +53,7 @@ const TextProcessor = () => {
       setSettings(JSON.parse(localSettings));
     }
 
-    // getUsedChars();
+    getUsedChars();
   }, []);
 
   async function pasteHandler() {
@@ -67,7 +67,9 @@ const TextProcessor = () => {
     });
 
     const complete = lines.filter((line) => {
-      const hasWords = [...testArr].some((word) => line.includes(word));
+      const hasWords = [...testArr].some((word) =>
+        line.toLocaleLowerCase().includes(word.toLocaleLowerCase())
+      );
       const isLetter = regex.test(line[0]);
 
       return !hasWords && isLetter && line.length > 0;
@@ -159,7 +161,7 @@ const TextProcessor = () => {
     setIsModalOpen(true);
   }
 
-  function updateSettings(setting: keyof typeof settings, value: any) {
+  function updateSettings(setting: keyof typeof settings, value: string) {
     const newSettings = { ...settings };
 
     newSettings[setting] = value;
@@ -174,7 +176,7 @@ const TextProcessor = () => {
       {isModalOpen && (
         <Modal
           closeModal={() => setIsModalOpen(false)}
-          updateSettings={(setting: string, value: any) =>
+          updateSettings={(setting: string, value: string) =>
             updateSettings(setting, value)
           }
           settings={settings}
