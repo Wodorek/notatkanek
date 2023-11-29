@@ -90,7 +90,7 @@ const TextProcessor = () => {
     //replacements should be in one regex?
     param = param.replaceAll('/', ' ').replaceAll('\\', '');
 
-    console.log(param);
+    console.log('param', param);
 
     return param;
   }
