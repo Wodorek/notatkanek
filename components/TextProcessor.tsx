@@ -57,7 +57,7 @@ const TextProcessor = () => {
 
     const complete = lines.filter((line) => {
       const hasWords = [...excluded].some((word) =>
-        line.toLocaleLowerCase().includes(word.toLocaleLowerCase())
+        line.toLowerCase().includes(word.toLowerCase())
       );
       const isLetter = regex.test(line[0]);
 
