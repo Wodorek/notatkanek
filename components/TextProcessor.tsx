@@ -55,8 +55,6 @@ const TextProcessor = () => {
       .split(',')
       .map((e: string) => e.trim());
 
-    console.log(excluded);
-
     const complete = lines.filter((line) => {
       const hasWords = [...excluded].some((word) =>
         line.toLocaleLowerCase().includes(word.toLocaleLowerCase())
@@ -65,6 +63,7 @@ const TextProcessor = () => {
 
       return !hasWords && isLetter && line.length > 0;
     });
+    console.log('complete', complete);
     return complete;
   }
 
@@ -90,6 +89,8 @@ const TextProcessor = () => {
 
     //replacements should be in one regex?
     param = param.replaceAll('/', ' ').replaceAll('\\', '');
+
+    console.log(param);
 
     return param;
   }
