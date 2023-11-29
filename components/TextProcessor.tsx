@@ -96,8 +96,11 @@ const TextProcessor = () => {
   }
 
   async function textProcessingHandler(text: string) {
+    console.log('removing');
     const usefulLines = removeUselessLines(text);
+    console.log('finding');
     const missingTranslation = findUntranslated(usefulLines);
+    console.log('creating');
     const translationParam = createTranslateParam(
       usefulLines,
       missingTranslation
