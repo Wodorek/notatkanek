@@ -55,15 +55,12 @@ const TextProcessor = () => {
       .split(',')
       .map((e: string) => e.trim());
 
-    console.log('excluded', excluded);
-
     const complete = lines.filter((line) => {
       const hasWords = [...excluded, '\n'].some((word) => line.includes(word));
       const isLetter = regex.test(line[0]);
 
       return !hasWords && isLetter && line.length > 0;
     });
-    console.log('complete', complete);
     return complete;
   }
 
@@ -90,17 +87,13 @@ const TextProcessor = () => {
     //replacements should be in one regex?
     param = param.replaceAll('/', ' ').replaceAll('\\', '');
 
-    console.log('param', param);
-
     return param;
   }
 
   async function textProcessingHandler(text: string) {
-    console.log('removing');
     const usefulLines = removeUselessLines(text);
-    console.log('finding');
     const missingTranslation = findUntranslated(usefulLines);
-    console.log('creating');
+
     const translationParam = createTranslateParam(
       usefulLines,
       missingTranslation
@@ -111,8 +104,6 @@ const TextProcessor = () => {
         return resp.json();
       }
     );
-
-    console.log(translationsData);
 
     const translatedSentences = translationsData.translated.translations;
 
@@ -140,7 +131,6 @@ const TextProcessor = () => {
 
   async function bugReportHandler() {
     const text = encodeURI(rawText);
-    console.log(encodeURI(text));
     await fetch(`/api/sendBugReport`, {
       headers: new Headers({
         'Content-Type': 'application/json',

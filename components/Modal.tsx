@@ -15,8 +15,6 @@ const Modal: React.FC<IProps> = (props) => {
   const { register, handleSubmit, watch } = useForm();
 
   function submitHander(data: any) {
-    console.log(data);
-
     props.updateSettings(data);
   }
 
