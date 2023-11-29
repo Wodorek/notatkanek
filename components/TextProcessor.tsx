@@ -58,7 +58,7 @@ const TextProcessor = () => {
     console.log('excluded', excluded);
 
     const complete = lines.filter((line) => {
-      const hasWords = [...excluded].some((word) => line.includes(word));
+      const hasWords = [...excluded, '\n'].some((word) => line.includes(word));
       const isLetter = regex.test(line[0]);
 
       return !hasWords && isLetter && line.length > 0;
