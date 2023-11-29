@@ -4,21 +4,6 @@ import { BsFillBugFill, BsFillGearFill } from 'react-icons/bs';
 import Modal from './Modal';
 import defaultSettings from '../app/settings.json';
 
-const testArr: string[] = [
-  'Wiadomość usunięta',
-  'Bukaj',
-  'Michalina',
-  '\n',
-  'udostępnianie',
-  'Wysłano',
-  'Kamera',
-  'Mikrofon',
-  'Pokaż',
-  'Nagraj',
-  'Czat',
-  'Ludzie',
-  'Wyjdź',
-];
 const regex = new RegExp(/[a-z]+/i);
 
 async function getTranslations(wordsString: string) {
@@ -66,8 +51,14 @@ const TextProcessor = () => {
       return line.replace('\r', '').replace(/\?/g, '');
     });
 
+    const excluded = settings.exclusions
+      .split(',')
+      .map((e: string) => e.trim());
+
+    console.log(excluded);
+
     const complete = lines.filter((line) => {
-      const hasWords = [...testArr].some((word) =>
+      const hasWords = [...excluded].some((word) =>
         line.toLocaleLowerCase().includes(word.toLocaleLowerCase())
       );
       const isLetter = regex.test(line[0]);
@@ -161,12 +152,12 @@ const TextProcessor = () => {
     setIsModalOpen(true);
   }
 
-  function updateSettings(setting: keyof typeof settings, value: string) {
+  function updateSettings(settings: { [key: string]: string }) {
     const newSettings = { ...settings };
 
-    newSettings[setting] = value;
-
     setSettings(newSettings);
+
+    localStorage.setItem('settings', JSON.stringify(newSettings));
   }
 
   //TODO: take inner html into separate components
@@ -176,8 +167,8 @@ const TextProcessor = () => {
       {isModalOpen && (
         <Modal
           closeModal={() => setIsModalOpen(false)}
-          updateSettings={(setting: string, value: string) =>
-            updateSettings(setting, value)
+          updateSettings={(settings: { [key: string]: string }) =>
+            updateSettings(settings)
           }
           settings={settings}
         />

@@ -1,17 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import classes from './SettingField.module.css';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 
 interface IProps {
   name: string;
   val: string;
+  register: UseFormRegister<FieldValues>;
 }
 
 const SettingField: React.FC<IProps> = (props) => {
   const [inputValue, setInputValue] = useState(props.val);
-
-  useEffect(() => {
-    setInputValue(props.val);
-  }, [props.val]);
 
   return (
     <div className={classes.settingField}>
@@ -19,6 +17,7 @@ const SettingField: React.FC<IProps> = (props) => {
         {props.name}:
       </label>
       <input
+        {...props.register(props.name)}
         className={classes.textField}
         type="text"
         value={inputValue}

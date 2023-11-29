@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react';
 import classes from './Modal.module.css';
 import { BsXLg } from 'react-icons/bs';
+import { useForm, FieldValues, UseFormRegister } from 'react-hook-form';
 import SettingField from './SettingField';
 
 interface IProps {
   closeModal: () => void;
-  updateSettings: (setting: string, value: any) => void;
+  updateSettings: (settings: { [key: string]: string }) => void;
   settings: { [key: string]: any };
 }
 
 const Modal: React.FC<IProps> = (props) => {
   const settingKeys = Object.keys(props.settings);
 
-  function submitHander(e: React.FormEvent) {
-    e.preventDefault();
+  const { register, handleSubmit, watch } = useForm();
 
-    console.log(e.target);
+  function submitHander(data: any) {
+    console.log(data);
+
+    props.updateSettings(data);
   }
 
   return (
@@ -27,11 +29,12 @@ const Modal: React.FC<IProps> = (props) => {
         <h3 className={classes.header}>Settings</h3>
         <form
           className={classes.settingsContainer}
-          onSubmit={(e) => submitHander(e)}
+          onSubmit={handleSubmit(submitHander)}
         >
           {settingKeys.map((setting) => {
             return (
               <SettingField
+                register={register}
                 name={setting}
                 key={setting}
                 val={props.settings[setting]}
