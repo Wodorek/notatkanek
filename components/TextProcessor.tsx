@@ -56,9 +56,7 @@ const TextProcessor = () => {
       .map((e: string) => e.trim());
 
     const complete = lines.filter((line) => {
-      const hasWords = [...excluded].some((word) =>
-        line.toLowerCase().includes(word.toLowerCase())
-      );
+      const hasWords = [...excluded].some((word) => line.includes(word));
       const isLetter = regex.test(line[0]);
 
       return !hasWords && isLetter && line.length > 0;
