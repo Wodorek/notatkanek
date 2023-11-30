@@ -57,9 +57,8 @@ const TextProcessor = () => {
 
     const complete = lines.filter((line) => {
       const hasWords = [...excluded, '\n'].some((word) => line.includes(word));
-      const isLetter = regex.test(line[0]);
 
-      return !hasWords && isLetter && line.length > 0;
+      return !hasWords && line.length > 0;
     });
     return complete;
   }
@@ -112,6 +111,11 @@ const TextProcessor = () => {
     const finishedText = usefulLines.map((line, idx) => {
       if (missingTranslation.includes(idx)) {
         currIdx++;
+
+        if (!regex.test(line[0])) {
+          return line;
+        }
+
         return `${line}${
           translatedSentences[currIdx].detected_source_language !== 'PL'
             ? ` - ${translatedSentences[currIdx].text}`
