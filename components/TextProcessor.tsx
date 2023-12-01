@@ -56,7 +56,9 @@ const TextProcessor = () => {
       .map((e: string) => e.trim());
 
     const complete = lines.filter((line) => {
-      const hasWords = [...excluded, '\n'].some((word) => line.includes(word));
+      const hasWords = [...excluded, '\n'].some((word) =>
+        line.toLocaleLowerCase().includes(word.toLocaleLowerCase())
+      );
 
       return !hasWords && line.length > 0;
     });
