@@ -47,9 +47,16 @@ const TextProcessor = () => {
   }
 
   function removeUselessLines(text: string) {
-    const lines = text.split('\n').map((line) => {
+    let lines = text.split('\n').map((line) => {
       return line.replace('\r', '').replace(/\?/g, '');
     });
+
+    //temporary whereby fix
+    lines = lines.map((line) => {
+      return line.replace('Michalina', '');
+    });
+
+    console.log(lines);
 
     const excluded = settings.exclusions
       .split(',')
