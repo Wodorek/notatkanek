@@ -53,7 +53,12 @@ const TextProcessor = () => {
 
     //temporary whereby fix
     lines = lines.map((line) => {
-      return line.replace('Michalina', '');
+      return line.replace(/Michalina|Ty/, '');
+    });
+
+    //temporary timestamp fix
+    lines = lines.map((line) => {
+      return line.replace(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/g, '');
     });
 
     console.log(lines);
